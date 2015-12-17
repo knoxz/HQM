@@ -14,55 +14,64 @@ import net.minecraft.util.ChatComponentTranslation;
 
 public class PlayerTracker {
 
-	public PlayerTracker() {
-		FMLCommonHandler.instance().bus().register(this);
-	}
+
+    public PlayerTracker() {
+        FMLCommonHandler.instance().bus().register(this);
+    }
+
 
 	public int getRemainingLives(ICommandSender sender) {
-		return QuestingData.getQuestingData((EntityPlayer) sender).getLives();
+		return  QuestingData.getQuestingData((EntityPlayer) sender).getLives();
 	}
 
-	@SubscribeEvent
+		
+    @SubscribeEvent
 	public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
-		EntityPlayer player = event.player;
-		if (!QuestingData.hasData(player)) {
-			QuestingData.getQuestingData(player).getDeathStat().refreshSync();
-		}
+        EntityPlayer player = event.player;
+        if (!QuestingData.hasData(player)) {
+            QuestingData.getQuestingData(player).getDeathStat().refreshSync();
+        }
 
-		QuestLine.sendServerSync(player);
+        QuestLine.sendServerSync(player);
 
-		if (QuestingData.isHardcoreActive())
+		if(QuestingData.isHardcoreActive())
 			sendLoginMessage(player);
 		else if (ModConfig.NO_HARDCORE_MESSAGE)
 			player.addChatMessage(new ChatComponentTranslation("hqm.message.noHardcore"));
 
-		NBTTagCompound tags = player.getEntityData();
-		if (tags.hasKey("HardcoreQuesting")) {
-			if (tags.getCompoundTag("HardcoreQuesting").getBoolean("questBook")) {
-				QuestingData.getQuestingData(player).receivedBook = true;
-			}
-			if (QuestingData.isQuestActive()) {
-				tags.removeTag("HardcoreQuesting");
-			}
-		}
+        NBTTagCompound tags = player.getEntityData();
+        if(tags.hasKey("HardcoreQuesting")) {
+            if (tags.getCompoundTag("HardcoreQuesting").getBoolean("questBook")) {
+                QuestingData.getQuestingData(player).receivedBook = true;
+            }
+            if (QuestingData.isQuestActive()) {
+                tags.removeTag("HardcoreQuesting");
+            }
+        }
 
-		QuestingData.spawnBook(player);
 
-	}
 
-	private void sendLoginMessage(EntityPlayer player) {
-		player.addChatMessage(new ChatComponentText(Translator.translate("hqm.message.hardcore") + " "
-				+ Translator.translate("hqm.message.livesLeft", getRemainingLives(player))));
+        QuestingData.spawnBook(player);
 
 	}
 
-	@SubscribeEvent
+
+
+    private void sendLoginMessage(EntityPlayer player) {
+		player.addChatMessage(new ChatComponentText(Translator.translate("hqm.message.hardcore")+ " " + Translator.translate("hqm.message.livesLeft", getRemainingLives(player))));
+		
+	}
+
+    @SubscribeEvent
 	public void onPlayerLogout(PlayerEvent.PlayerLoggedOutEvent event) {
-		EntityPlayer player = event.player;
-		if (!player.worldObj.isRemote) {
-			PacketHandler.remove(player);
-			QuestingData.savePlayerData(player.getDisplayName());
-		}
-	}
+        EntityPlayer player = event.player;
+        if (!player.worldObj.isRemote) {
+            PacketHandler.remove(player);
+        }
+    }
+
+
+
+	
 
 }

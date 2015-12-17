@@ -19,7 +19,6 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 
 import java.io.File;
-import java.util.HashMap;
 
 @Mod(modid = ModInformation.ID, name = ModInformation.NAME, version = ModInformation.VERSION, guiFactory = "hardcorequesting.client.interfaces.HQMModGuiFactory")
 public class HardcoreQuesting
@@ -39,9 +38,6 @@ public class HardcoreQuesting
     public static FMLEventChannel packetHandler;
 
     private static EntityPlayer commandUser;
-    public static File savedWorldPath = null;
-    
-    public static HashMap<String, Boolean> loaded = new HashMap<String, Boolean>();
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)

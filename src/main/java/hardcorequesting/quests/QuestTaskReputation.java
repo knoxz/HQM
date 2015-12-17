@@ -1,7 +1,7 @@
 package hardcorequesting.quests;
 
 import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import cpw.mods.fml.relauncher.SideOnly;;
 import hardcorequesting.FileVersion;
 import hardcorequesting.QuestingData;
 import hardcorequesting.SaveHelper;
