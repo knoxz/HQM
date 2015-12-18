@@ -3,7 +3,8 @@ import java.io.Serializable;
 
 // "implements Serializable" adden
 public class DeathStats implements Serializable {
-
+	
+	//Add this one
 	public DeathStats(String name, int[] deaths, int totalDeaths) {
 		super();
 		this.name = name;

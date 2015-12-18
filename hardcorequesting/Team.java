@@ -189,13 +189,6 @@ public class Team implements Serializable {
 	}
 
 	/**
-	 * @return the serialversionuid
-	 */
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
-	/**
 	 * @param rewardSetting
 	 *            the rewardSetting to set
 	 */
