@@ -37,21 +37,15 @@ public static QuestingData getQuestingData(String name) {
 				ObjectInputStream ois = new ObjectInputStream(fis);
 				QuestingData result = (QuestingData) ois.readObject();
 				ois.close();
-
-				System.out.println("HQM DEBUG: loading playerfile from: " + name);
-//				System.out.println("LOADED QUESTDATA BEFORE VOID:");
-//				System.out.println(result.getTeam().getQuestData());
-				if (!result.team.isSingle()) {
+				System.out.println("HQM DEBUG: loading playerfile from: "+name  );
+				if(!result.team.isSingle()){
 					System.out.println("HQM DEBUG: and voiding");
-//					result.setTeam(result.voidTeamData(name));
-//					System.out.println("LOADED QUESTDATA AFTER VOID:");
-//					System.out.println(result.getTeam().getQuestData());
+					result.setTeam(result.voidTeamData(name));	
 				}
-
 				data.put(name, result);
+				containskey = true;
 
 				HardcoreQuesting.loaded.put(name, true);
-				containskey = true;
 				ois.close();
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
@@ -64,7 +58,6 @@ public static QuestingData getQuestingData(String name) {
 		if (!data.containsKey(name)) {
 			new QuestingData(name);
 		}
-		HardcoreQuesting.loaded.put(name, true);
 		return data.get(name);
 	}
 	
